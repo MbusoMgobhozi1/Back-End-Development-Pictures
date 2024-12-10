@@ -89,8 +89,8 @@ def update_picture(id):
     for index, existing_picture in enumerate(data):
         if existing_picture.get("id") == id:
  
-            data[index].update(updated_picture)
-            return jsonify(data), 200
+            data[index].update(picture)
+            return jsonify(data[index]), 204
 
     return {"message": "picture not found"}
 ######################################################################
@@ -98,4 +98,12 @@ def update_picture(id):
 ######################################################################
 @app.route("/picture/<int:id>", methods=["DELETE"])
 def delete_picture(id):
-    pass
+    if not data:
+        return {"Message": "no pictures found"}, 404
+
+    for index, existing_picture in enumerate(data):
+        if existing_picture.get("id") == id:
+            data.pop(index)
+            return '', 204
+    
+    return {"message": "picture not found"}, 404
